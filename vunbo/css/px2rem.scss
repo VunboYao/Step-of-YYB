@@ -1,0 +1,26 @@
+@charset "UTF-8";
+// px2rem
+@mixin px2rem($property, $px-values, $baseline-px: 16, $support-for-ie: false) {
+  // 设置基本单位rem
+  $baseline-rem: $baseline-px / 1rem * 1;
+  // 输出第一个值
+  @if $support-for-ie {
+    #{$property}: $px-values;
+  }
+  // 如果只有一个值(数字), 返回 值/rem
+  @if type_of($px-values) == 'number' {
+    #{$property}: $px-values / $baseline-rem;
+  }
+  @else {
+    // 创建一个空值可以进行存储数据
+    $rem-values: ();
+    @each $value in $px-values {
+      // 如果值为0或者类型不为number
+      @if $value == 0 or type_of($value) != 'number' {
+        $rem-values: append($rem-values, $value / $baseline-rem)
+      }
+    }
+    // 返回属性和转换的列表值
+    #{$property}: $rem-values;
+  }
+}

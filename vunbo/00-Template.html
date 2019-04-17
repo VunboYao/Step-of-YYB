@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板文件</title>
+    <link rel="stylesheet" href="./css/template.css">
+</head>
+<body>
+<!--Header Start-->
+<header><a href="./../index.html">GoBack</a></header>
+<!--Header End-->
+<!--Main Start-->
+<main>
+    <form action="post" target="myFrame">
+        <div class="handle">
+            <input type="button" value="提交代码" name="button" onclick="runCode()">
+        </div>
+        <div class="code">
+            <p class="intro">编辑代码:</p>
+            <textarea name="edit" id="edit">
+                代码提交区域
+            </textarea>
+        </div>
+        <div class="result">
+            <p class="intro">查看结果:</p>
+            <iframe src="" name="myFrame"></iframe>
+        </div>
+    </form>
+</main>
+<!--Main End-->
+<!--Footer Start-->
+<footer>
+    <div class="websiteInfo">
+        <p>Vunbo丶Yao</p>
+        <p>积少成多,温故知新,循序渐进,忐忑前行</p>
+    </div>
+</footer>
+<!--FooterEnd-->
+</body>
+<script>
+    function runCode() {
+        let oEdit = document.getElementById('edit'); // 获取编辑区域
+        if (oEdit.value === '') {
+            alert('请输入要运行的代码及内容')
+            return false;
+        }
+        let oFrame = frames['myFrame'];  // 获取框架iframe
+        oFrame.document.open('text/html', 'replace'); // 打开一个新文档,并擦除内容
+        oFrame.document.writeln(oEdit.value); // 写入内容并换行
+        oFrame.document.close(); // 关闭文档，并迫使其内容显示出来。
+    }
+    runCode();
+</script>
+</html>

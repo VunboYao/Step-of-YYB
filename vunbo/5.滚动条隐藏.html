@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>滚动条隐藏</title>
+    <link rel="stylesheet" href="./css/template.css">
+</head>
+<body>
+<!--Header Start-->
+<header><a href="./../index.html">GoBack</a></header>
+<!--Header End-->
+<!--Main Start-->
+<main>
+    <form action="post" target="myFrame">
+        <div class="handle">
+            <input type="button" value="提交代码" name="button" onclick="runCode()">
+        </div>
+        <div class="code">
+            <p class="intro">编辑代码:</p>
+            <textarea name="edit" id="edit">
+                <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        section {
+            width: 300px;/* 基本宽度 */
+            height: 500px;
+            margin: 20px auto;
+            overflow: hidden;/* 超出隐藏 */
+        }
+        div {
+            width: 320px; /* 多余宽度 */
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        p {
+            width: 100%;
+            height: 200px;
+            background: #999;
+            overflow: hidden;
+        }
+        p:nth-child(2n) {
+            background: #f60;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <div>
+        <p>1</p>
+        <p>2</p>
+        <p>3</p>
+        <p>4</p>
+        <p>5</p>
+    </div>
+</section>
+</body>
+</html>
+
+            </textarea>
+        </div>
+        <div class="result">
+            <p class="intro">查看结果:</p>
+            <iframe src="" name="myFrame"></iframe>
+        </div>
+    </form>
+</main>
+<!--Main End-->
+<!--Footer Start-->
+<footer>
+    <div class="websiteInfo">
+        <p>Vunbo丶Yao</p>
+        <p>积少成多,温故知新,循序渐进,忐忑前行</p>
+    </div>
+</footer>
+<!--FooterEnd-->
+</body>
+<script>
+    function runCode() {
+        let oEdit = document.getElementById('edit'); // 获取编辑区域
+        if (oEdit.value === '') {
+            alert('请输入要运行的代码及内容')
+            return false;
+        }
+        let oFrame = frames['myFrame'];  // 获取框架iframe
+        oFrame.document.open('text/html', 'replace'); // 打开一个新文档,并擦除内容
+        oFrame.document.writeln(oEdit.value); // 写入内容并换行
+        oFrame.document.close(); // 关闭文档，并迫使其内容显示出来。
+    }
+    runCode();
+</script>
+</html>

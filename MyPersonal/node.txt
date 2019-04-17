@@ -1,0 +1,27 @@
+CommonJS：
+	模块引用：require('路径')；
+	模块暴露：exports
+
+exports 和 require 怎么来的？
+	通过console.log(arguments.callee + '')获取函数底层
+	function (exports, require, module, __filename, __dirname) {}
+	
+	exports:该对象用来将函数内部的局部变量或局部函数暴露到外部
+	require:用来引入外部的模块
+	module: 模块本身
+	__filename: 当前模块的完整路径 
+	__dirname: 当前模块所在文件家的完整路径
+	
+exports 和 module.exports的区别:值类型与引用类型
+
+	exports只能使用.语法来向外暴露内部变量
+		exports.xxx = xxx
+		
+	module.exports既可以通过.语法，也可以直接赋值一个对象
+		module.exports.xxx = xxx;
+		module.exports = {xxx: xxx};
+		
+	module.exports === exports	
+	module.exports包含了exports全部的功能，exports不能直接赋值一个对象，防止改变引用类型的指针，导致module.exports !== exports 	 
+	
+	

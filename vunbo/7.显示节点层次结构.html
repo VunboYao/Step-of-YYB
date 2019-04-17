@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>显示节点层次结构</title>
+    <link rel="stylesheet" href="./css/template.css">
+</head>
+<body>
+<!--Header Start-->
+<header><a href="./../index.html">GoBack</a></header>
+<!--Header End-->
+<!--Main Start-->
+<main>
+    <form action="post" target="myFrame">
+        <div class="handle">
+            <input type="button" value="提交代码" name="button" onclick="runCode()">
+        </div>
+        <div class="code">
+            <p class="intro">编辑代码:</p>
+            <textarea name="edit" id="edit">
+                <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            background-color: rgba(255, 0, 0, .2);
+        }
+
+        * * {
+            background-color: rgba(0, 255, 0, .2);
+        }
+
+        * * * {
+            background-color: rgba(0, 0, 255, .2);
+        }
+
+        * * * * {
+            background-color: rgba(255, 0, 255, .2);
+        }
+
+        * * * * * {
+            background-color: rgba(0, 255, 255, .2);
+        }
+
+        * * * * * * {
+            background-color: rgba(255, 255, 0, .2);
+        }
+    </style>
+</head>
+<body>
+<div>
+    我有一些文字
+    <div>
+    这里是一段文字
+    <p>这里是另一端文字
+        <span>这里还有一段文字额</span>
+    </p>
+    </div>
+</div>
+<script>
+    /* JS控制台显示 */
+    const m_style = document.createElement('style');
+    const m_style_text = '*{background-color:rgba(255,0,0,.2)}* *{background-color:rgba(0,255,0,.2)}* * *{background-color:rgba(0,0,255,.2)}* * * *{background-color:rgba(255,0,255,.2)}* * * * *{background-color:rgba(0,255,255,.2)}* * * * * *{background-color:rgba(255,255,0,.2)}';
+    m_style.appendChild(document.createTextNode(m_style_text));
+    document.getElementsByTagName('head')[0].appendChild(m_style)
+</script>
+</body>
+</html>
+            </textarea>
+        </div>
+        <div class="result">
+            <p class="intro">查看结果:</p>
+            <iframe src="" name="myFrame"></iframe>
+        </div>
+    </form>
+</main>
+<!--Main End-->
+<!--Footer Start-->
+<footer>
+    <div class="websiteInfo">
+        <p>Vunbo丶Yao</p>
+        <p>积少成多,温故知新,循序渐进,忐忑前行</p>
+    </div>
+</footer>
+<!--FooterEnd-->
+</body>
+<script>
+    function runCode() {
+        let oEdit = document.getElementById('edit'); // 获取编辑区域
+        if (oEdit.value === '') {
+            alert('请输入要运行的代码及内容')
+            return false;
+        }
+        let oFrame = frames['myFrame'];  // 获取框架iframe
+        oFrame.document.open('text/html', 'replace'); // 打开一个新文档,并擦除内容
+        oFrame.document.writeln(oEdit.value); // 写入内容并换行
+        oFrame.document.close(); // 关闭文档，并迫使其内容显示出来。
+    }
+
+    runCode();
+</script>
+</html>

@@ -1,0 +1,49 @@
+const http = require('http')
+const fs = require('fs')
+const path = require('path')
+const url = require('url')
+
+http.createServer((req,res) => {
+
+    // 1.url路径解析为对象
+    let pathUrl = url.parse(req.url);
+    let pathName = pathUrl.pathname;
+
+    // 2.首页
+    if (pathName.lastIndexOf('.') === -1) {
+        pathName = 'index.html'
+    }
+
+    // 3.拼接路径
+    let fileUrl = "./" + path.normalize('./source/' + pathName)
+
+    // 获取文件后缀名
+    let extName = path.extname(fileUrl);
+
+    // 4.读取文件
+    fs.readFile(fileUrl, (err,data) => {
+        if (err) {
+            res.writeHead(404,{"Content-type":"text/html;charset=UTF-8"})
+            res.end("<h1>404，当前页面不存在</h1>")
+        }
+        getContentType(extName,(contentType) => {
+            res.writeHead(200,{"Content-type":contentType})
+            res.end(data)
+        })
+    })
+
+
+}).listen(80,'127.0.0.1')
+
+// 根据后缀名，设置ContentType
+function getContentType(extname, callback) {
+    fs.readFile('./mime.json',(err,data) => {
+        if (err) {
+            throw err;
+            return;
+        }
+        let mimeJson = JSON.parse(data);
+        let contentType = mimeJson[extname] || 'text/plain';
+        callback(contentType)
+    })
+}

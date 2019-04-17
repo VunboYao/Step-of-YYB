@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多列等高</title>
+    <link rel="stylesheet" href="./css/template.css">
+</head>
+<body>
+<!--Header Start-->
+<header><a href="./../index.html">GoBack</a></header>
+<!--Header End-->
+<!--Main Start-->
+<main>
+    <form action="post" target="myFrame">
+        <div class="handle">
+            <input type="button" value="提交代码" name="button" onclick="runCode()">
+        </div>
+        <div class="code">
+            <p class="intro">编辑代码:</p>
+            <textarea name="edit" id="edit">
+                <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .web_width {
+            width: 100%;
+            overflow: hidden; /*父级超出隐藏*/
+        }
+
+        .left {
+            float: left;
+            width: 20%;
+            min-height: 50px;
+            background: #66afe9;
+            padding-bottom: 1600px;/* padding与margin抵消*/
+            margin-bottom: -1600px;
+        }
+
+        .right {
+            float: right;
+            width: 80%;
+            height: 250px;
+            background: #f00;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="web_width">
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
+</body>
+</html>
+
+            </textarea>
+        </div>
+        <div class="result">
+            <p class="intro">查看结果:</p>
+            <iframe src="" name="myFrame"></iframe>
+        </div>
+    </form>
+</main>
+<!--Main End-->
+<!--Footer Start-->
+<footer>
+    <div class="websiteInfo">
+        <p>Vunbo丶Yao</p>
+        <p>积少成多,温故知新,循序渐进,忐忑前行</p>
+    </div>
+</footer>
+<!--FooterEnd-->
+</body>
+<script>
+    function runCode() {
+        let oEdit = document.getElementById('edit'); // 获取编辑区域
+        if (oEdit.value === '') {
+            alert('请输入要运行的代码及内容')
+            return false;
+        }
+        let oFrame = frames['myFrame'];  // 获取框架iframe
+        oFrame.document.open('text/html', 'replace'); // 打开一个新文档,并擦除内容
+        oFrame.document.writeln(oEdit.value); // 写入内容并换行
+        oFrame.document.close(); // 关闭文档，并迫使其内容显示出来。
+    }
+
+    runCode();
+</script>
+</html>

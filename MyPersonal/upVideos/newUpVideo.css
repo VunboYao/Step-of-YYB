@@ -1,0 +1,60 @@
+@charset "UTF-8";
+/* 选择视频 */
+.vChoose {
+  position: relative;
+  overflow: hidden; }
+  .vChoose .chooseFile {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; }
+
+/* 进度条 */
+.el-header, .el-footer {
+  padding: 0;
+  height: 20px; }
+
+.el-progress-bar__outer {
+  background: #eee; }
+
+/* 预览图主区域 */
+.el-main {
+  margin-top: 10px;
+  padding: 5px;
+  border: 1px solid #E9EEF3;
+  color: #333;
+  min-height: 250px; }
+  .el-main .vd-item {
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+    width: 150px;
+    height: 220px;
+    overflow: hidden;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px; }
+    .el-main .vd-item img {
+      width: 150px;
+      height: 150px;
+      display: block; }
+    .el-main .vd-item video {
+      display: block; }
+    .el-main .vd-item .item-progress {
+      margin: 8px 0 5px; }
+    .el-main .vd-item .el-icon-delete {
+      color: red; }
+    .el-main .vd-item .list-title {
+      position: absolute;
+      bottom: 5px;
+      width: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap; }
+
+/*# sourceMappingURL=newUpVideo.css.map */

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板文件</title>
+    <link rel="stylesheet" href="./css/template.css">
+</head>
+<body>
+<!--Header Start-->
+<header><a href="./../index.html">GoBack</a></header>
+<!--Header End-->
+<!--Main Start-->
+<main>
+    <form action="post" target="myFrame">
+        <div class="handle">
+            <input type="button" value="提交代码" name="button" onclick="runCode()">
+        </div>
+        <div class="code">
+            <p class="intro">编辑代码:</p>
+            <textarea name="edit" id="edit">
+                <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /* 去除相关默认 */
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        /* 样式 */
+        body {
+            height: 100vh; /* 核心, 视窗高度 */
+        }
+
+        .container {
+            /*width: 100%;*/
+            height: 100%; /*核心.设置其高度*/
+            overflow-x: hidden;
+        }
+
+        .top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 20px; /* 滚动条位置 */
+            overflow: hidden;
+            width: calc(100% - 20px); /*核心:合理的宽度计算*/
+        }
+
+        ul {
+            display: flex;
+            list-style: none;
+            width: 100%;
+            background: #ccc;
+        }
+
+        li {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .active {
+            background: red;
+        }
+
+        .wrap {
+            padding-top: 50px;
+        }
+
+        .page {
+            text-align: center;
+            width: 100%;
+            height: 700px;
+        }
+
+        .page1 {
+            background: #158135;
+        }
+
+        .page2 {
+            background: #811617;
+        }
+
+        .page3 {
+            background: #6f2381;
+        }
+
+        .page4 {
+            background: #27817a;
+        }
+
+        .page5 {
+            background: #61811c;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top">
+        <ul>
+            <li class="active">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </div>
+    <div class="wrap">
+        <div class="list">
+            <div class="page page1">1</div>
+            <div class="page page2">2</div>
+            <div class="page page3">3</div>
+            <div class="page page4">4</div>
+            <div class="page page5">5</div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script>
+    let aA = document.querySelectorAll('li');
+    let aLi = document.querySelectorAll('.page')
+    let oContainer = document.querySelector('.container');
+    let arr = [];
+    for (let i = 0; i < 5; i++) {
+        arr.push((aLi[i].offsetTop) - 400)
+    }
+    console.log(arr)
+   /* $('.container').scroll(function () {
+        let top = $(this).scrollTop();
+        console.log(top)
+        for (let i = 0; i < 5; i++) {
+            aA[i].className = "";
+            if (top > arr[i] && top < (arr[i + 1])) {
+                aA[i].className = 'active'
+            }
+            if (top > arr[4]) {
+                aA[4].className = 'active'
+            }
+            if (top < 350) {
+                aA[0].className = 'active'
+            }
+        }
+    })*/
+   oContainer.addEventListener('scroll', function () {
+       console.log(this.scrollTop)
+       let top = this.scrollTop;
+       for (let i = 0; i < 5; i++) {
+           aA[i].className = "";
+           if (top > arr[i] && top < (arr[i + 1])) {
+               aA[i].className = 'active'
+           }
+           if (top > arr[4]) {
+               aA[4].className = 'active'
+           }
+           if (top < 350) {
+               aA[0].className = 'active'
+           }
+       }
+   })
+</script>
+</body>
+</html>
+            </textarea>
+        </div>
+        <div class="result">
+            <p class="intro">查看结果:</p>
+            <iframe src="" name="myFrame"></iframe>
+        </div>
+    </form>
+</main>
+<!--Main End-->
+<!--Footer Start-->
+<footer>
+    <div class="websiteInfo">
+        <p>Vunbo丶Yao</p>
+        <p>积少成多,温故知新,循序渐进,忐忑前行</p>
+    </div>
+</footer>
+<!--FooterEnd-->
+</body>
+<script>
+    function runCode() {
+        let oEdit = document.getElementById('edit'); // 获取编辑区域
+        if (oEdit.value === '') {
+            alert('请输入要运行的代码及内容')
+            return false;
+        }
+        let oFrame = frames['myFrame'];  // 获取框架iframe
+        oFrame.document.open('text/html', 'replace'); // 打开一个新文档,并擦除内容
+        oFrame.document.writeln(oEdit.value); // 写入内容并换行
+        oFrame.document.close(); // 关闭文档，并迫使其内容显示出来。
+    }
+
+    runCode();
+</script>
+</html>

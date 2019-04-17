@@ -1,0 +1,120 @@
+@charset "UTF-8";
+// 字体大小设置
+@mixin font-dpr($font-size) {
+  font-size: $font-size;
+  [data-dpr='2'] & {
+    font-size: $font-size * 2;
+  }
+  [data-dpr='3'] & {
+    font-size: $font-size * 3;
+  }
+}
+
+// px2rem
+@mixin px2rem($property, $px-values, $baseline-px: 16, $support-for-ie: false) {
+  // 设置基本单位rem
+  $baseline-rem: $baseline-px / 1rem * 1;
+  // 输出第一个值
+  @if $support-for-ie {
+    #{$property}: $px-values;
+  }
+  // 如果只有一个值(数字), 返回 值/rem
+  @if type_of($px-values) == 'number' {
+    #{$property}: $px-values / $baseline-rem;
+  }
+  @else {
+    // 创建一个空值可以进行存储数据
+    $rem-values: ();
+    @each $value in $px-values {
+      // 如果值为0或者类型不为number
+      @if $value == 0 or type_of($value) != 'number' {
+        $rem-values: append($rem-values, $value / $baseline-rem)
+      }
+    }
+    // 返回属性和转换的列表值
+    #{$property}: $rem-values;
+  }
+}
+
+
+// 页面布局
+.top img {
+    width: 100%;
+}
+.content {
+    background: #ee0a3b;
+    padding: 0.125rem;
+    li {
+        display: table;
+        background: #fff;
+        margin-bottom: 1px;
+        .left {
+            display: table-cell;
+            width: 2.5rem;
+            height: 2.5rem;
+            padding: .125rem 0;
+            img {
+                width: 100%;
+                height: 100%;
+                vertical-align: top;
+            }
+        }
+        .right {
+             display: table-cell;
+             position: relative;
+            .title {
+                  padding:0  .125rem;
+                a {
+                    color: #333;
+                    line-height: 1.5;
+                    overflow: hidden;
+                     -webkit-line-clamp: 2;
+                }
+            }
+            .price {
+                padding: 0.125rem;
+                 span {
+                     background: #ee0a3b;
+                     border-radius: .0625rem;
+                     padding: .026667rem .08rem .013333rem;
+                     color: #fff;
+                     font-weight: 700;
+                     margin-right: .125rem;
+                     vertical-align: middle;
+                      @include font-dpr(11px);
+                 }
+                 strong {
+                     display: inline-block;
+                     vertical-align: middle;
+                     font-weight: 700;
+                     color: #ee0a3b;
+                     margin-right: .125rem;
+                     @include font-dpr(16px);
+                 }
+                 small {
+                     @include font-dpr(12px);
+                     vertical-align: middle;
+                     font-weight: 700;
+                     color: #ee0a3b;
+                 }
+            }
+            .type {
+                    color: #ff3600;
+            }
+            .btn {
+                position: absolute;
+                width: 2.133333rem;
+                height: .64rem;
+                line-height: .64rem;
+                background-color: #ee0a3b;
+                text-align: center;
+                color: #fff;
+                font-weight: 700;
+                @include font-dpr(14px);
+                bottom: .13rem;
+                right: .2rem;
+                border-radius: .026667rem;
+            }
+        }
+    }
+}

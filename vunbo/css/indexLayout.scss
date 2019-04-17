@@ -1,0 +1,107 @@
+@charset "utf-8";
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+/* Header */
+header {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(to right, #79f1a4, #0e5cad);;
+  padding: 5px;
+  /* Logo */
+  .header-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+  /* Title */
+  .header-middle {
+    flex: 10;
+    text-align: center;
+    font-size: 28px;
+    color: #0b5050;
+    text-shadow: 2px 2px 2px #3447c7;
+  }
+  /* Other */
+  .header-right {
+    flex: 1;
+  }
+}
+/* Main */
+main {
+  flex: 1;
+  /* 跳出上级元素 */
+  @at-root .container {
+    display: flex;
+    overflow: hidden;
+    /* 统一样式设置 */
+    @mixin uniformChunk($color: #000) {
+      /* 模块标题 */
+      .chunk-title {
+        font-size: 20px;
+        text-align: center;
+        color: #022646;
+      }
+      /* 模块列表 */
+      .chunk-list {
+        padding: 10px;
+        a {
+          display: flex;
+          align-items: center;
+          font-size: 18px;
+          /* 文章名 */
+          .item-title {
+            flex: 9;
+            color: $color;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          /* 日期 */
+          .item-publish_time {
+            flex: 3;
+            font-size: 14px;
+            color: #130505;
+          }
+        }
+      }
+    }
+
+    .css {
+      flex: 1;
+      padding-bottom: 2000px;
+      margin-bottom: -2000px;
+      background: #b0f3c2;
+      @include uniformChunk(#330211);
+    }
+    .js {
+      flex: 1;
+      background: #92e2bec9;
+      @include uniformChunk(#cc310c);
+    }
+    .other {
+      flex: 1;
+      background: #9ac6e6;
+      @include uniformChunk(#05044c);
+    }
+  }
+}
+/* Footer */
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 calc(50% - 200px);
+  color: #5f4e0e;
+  background: #6be4d2;
+  .websiteInfo {
+    text-align: center;
+  }
+}

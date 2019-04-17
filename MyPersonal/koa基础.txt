@@ -1,0 +1,22 @@
+安装：npm install koa
+基础用法：
+const Koa = require('koa');
+const app = new Koa();
+
+app.use(async ctx => {
+  ctx.body = 'Hello World';
+});
+
+app.listen(3000);
+
+获取url信息：
+query: 返回格式化后的参数对象
+querystring:返回请求的字符串
+
+方式一：ctx.request.xxx
+方式二：ctx.xxx
+
+
+获取请求信息
+ctx.request Koa2中封装
+ctx.req原生

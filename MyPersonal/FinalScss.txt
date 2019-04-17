@@ -1,0 +1,176 @@
+常见错误: 
+	路径中存在中文,中文,中文
+	文件编码错误解决：使用@charset "utf-8";-------------报错解决办法----汉字	
+	
+常见问题：@mixin 混入缺点：生成冗余带码块
+		  %占位符，如果不被@extend调用，不会产生代码。编译出来的代码会将相同的代码合并在一起
+	
+1.安装
+	1.ruby安装
+	2.gem install sass
+	3.sass -v（版本查询）
+	4.gem update sass   更新sass
+	5.gem uninstall sass 卸载
+
+2.编译
+	sass --watch sass/xx.scss:css/xx.css
+	
+
+3.编译方式 （GUI图形界面化工具Koala）
+	1.嵌套输出
+		sass --watch sass/xx.scss:css/xx.css --style nested	(默认格式)
+	2.嵌套输出方式
+		sass --watch sass/xx.scss:css/xx.css --style expanded(大括号另起一行)
+	3.紧凑输出方式
+		sass --watch sass/xx.scss:css/xx.css --style compact(不换行)
+	4.压缩输出方式
+		sass --watch sass/xx.scss:css/xx.css --style compressed
+
+		
+4. 核心语法
+
+	1 变量声明-------------------------------变量可以分为全局与局部变量定义并使用
+		调用：样式后直接引用变量名
+		$fontSize: 12px;
+		body {
+		  font-size: $fontSize;
+		}
+		
+		
+	2 !default 默认值,没有声明则使用这个默认的值，当设置了值时则使用相应的值。	
+		$fontSize: 12px!default;
+		$fontSizeNow: 20px;
+		body {
+		  font-size: $fontSizeNow;   /* 20px */
+		}
+		
+	3 & 连字符
+		在选择符前时没有空格----------------- &:before{}
+		在选择符后时，反选父级选择器
+
+		ul {                             ul li {
+		  li {								background: #0c8ed9;
+			background: #0c8ed9;         }
+			div & {						 div ul li {
+			  background: #66bb00;          background: #66bb00;
+			}							 }
+		  }
+		}
+		
+		
+
+	4 属性嵌套
+	
+		.box {							.box {
+		  font: {  							font-size: 12px;	
+			size: 12px;  					font-weight: bold;
+			weight: bold;				}
+		  }
+		}
+
+		
+	5 混合声明(混合器)------相同代码集合
+		1.@mixin xx(变量){}
+		2.调用: @include xx
+		3.混合声明中变量可以不带参数,调用时@include xx(参数值)
+		4.变量中带一个默认的参数,调用时仍可以自己设定
+		5.多个变量,可以使用'...'参数来代替,函数体式@mixin
+		6.使用场景：一组放在一起有意义的属性（重复的）
+		
+		
+		调用一：无参数，相同代码提取
+		@mixin btnDiv {						.btn {
+		  width: 20px;							width: 20px;
+		  height: 20px;							height: 20px;
+		  border-radius: 5px;					border-radius: 5px;
+		}									}
+		.btn {								.a {
+		  @include btnDiv;						width: 20px;
+		}										height: 20px;
+		.a {									border-radius: 5px;
+		  @include btnDiv;					}
+		}
+		
+		
+		调用二：传一个不带值的参数，调用时传值
+		@mixin bg($url) {						.div {
+		  background-image: url($url);				width: 500px;
+		}											height: 500px;
+		.div {										background-image: url("vue.png");
+		  width: 500px;							}
+		  height: 500px;
+		  @include bg('vue.png');
+		}
+		
+		
+		调用三：传一个带值的默认参数，调用时不传值则使用默认。传值则覆盖--------可以传多值。
+				当参数过多时，可以使用参数"..."替代
+		@mixin bg($url:'vue.png') {					.div {
+		  background-image: url($url);					width: 500px;
+		}												height: 500px;
+		.div {											background-image: url("1.jpeg");
+		  width: 500px;								}	
+		  height: 500px;
+		  @include bg('1.jpeg');
+		}
+	
+		
+	
+	
+	6 @extend 继承
+		1. @extend '已经存在的样式块'
+			@extend .error (直接跟选择器)
+		2.重要点：
+			a: 跟混合器（@mixin）相比，继承生成的css代码相对更少。因为继承仅仅是重复选择器，而不会重复属性，所以使用继承往往比混合气生成的css体积小。速度第一。
+				
+			b: 继承遵从css层叠的规则。当两个不同的css规则应用到同一个html元素上时，并且这两个不同的css规则对同一属性的修饰存在不同的值，css层叠规则会决定用哪个样式。相当直观：通常权重更高得选择器胜出，如果权重相同，定义在后边的规则胜出。
+		
+		
+	7 %占位符
+		1. %mt15 {margin-top: 15px}
+		2. @extend %mt15
+		3. 提取公共代码
+	
+	
+	8 比较
+		1. @mixin 混合宏, 如果有变量,使用混合宏, 	调用使用@include
+		2. 继承,已经存在的类,不需要任何变量参数,使用继承. 	调用使用@extend
+		3. 占位符 '%'. 和继承基本相同.不会在代码中生成选择器.  独立.	调用使用@extend
+		
+		占位符用则有,不用则无。继承有父级才行,父级改动全局动（风险大）。变量混合宏.
+		
+	
+	9 注释
+		// 编译后不显示    /**/ 编译后显示
+		
+	
+		
+
+5.	全局属性
+	
+	1 @import -----------------------------------------SASS中可以全局任何位置使用
+		a-- 引入其他xx.scss文件
+		b-- sass命名文件名前添加'_', 如 '_bgColor.scss'，不参与编译。引入@import 'bgColor'
+		c-- 在同一个目录不能同时存在带下划线和不带下划线的同名文件。 例如， _colors.scss 不能与 colors.scss 并存
+		
+	2 @extend 
+		继承现有的样式部分。不能继承选择器序列
+	
+	3 @at-root
+		跳出根元素 @at-root .demo { }
+			
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

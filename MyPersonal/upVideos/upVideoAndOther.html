@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="newUpVideo.css">
+</head>
+<body>
+<div id="app">
+    <el-container v-loading="loading"
+                  element-loading-text="文件上传中,请稍后"
+                  element-loading-spinner="el-icon-loading"
+                  element-loading-background="rgba(0, 0, 0, 0.6)">
+        <!-- 选择文件 -->
+        <el-header>
+            <el-row>
+                <el-button type="primary" class="vChoose">选择文件
+                    <input type="file" id="file" class="chooseFile" @change="previewFile" multiple>
+                </el-button>
+                <!-- 上传 -->
+                <el-button type="success" style="float: right;" @click="upAllFile">开始上传</el-button>
+            </el-row>
+        </el-header>
+        <!-- 进度条 -->
+        <el-row>
+            <el-col :span="24">
+                <el-progress
+                        :text-inside="true"
+                        :stroke-width="18"
+                        :percentage="totalPercent"
+                        class="list-progress"
+                        v-show="fileSrc.length > 0"
+                ></el-progress>
+            </el-col>
+        </el-row>
+        <!-- 文件预览区域 -->
+        <el-main class="main">
+            <div class="vd-item" v-for="(item,index) in fileSrc" :key="index">
+                <video :src="item.fileSrc" v-if="item.isVideo" width="150" height="150" controls></video>
+                <img :src="item.fileSrc" v-else>
+                <el-progress
+                        :text-inside="true"
+                        :stroke-width="18"
+                        :percentage="item.number"
+                        v-if="showProgress"
+                        class="item-progress"
+                ></el-progress>
+                <i class="el-icon-delete" @click="removeItem(index)"></i>
+                <span class="list-title">{{ item.fileName }}</span>
+            </div>
+        </el-main>
+    </el-container>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data: {
+            fileSrc: [], // 上传的文件数组
+            loading: false, // loading默认不显示,
+            showProgress: false, // 是否显示滚动条
+            totalPercent: 0, // 总进度条
+            courseNum: 0, // 已上传结束文件数量
+        },
+        methods: {
+            /* 1.选择文件并预览文件 */
+            previewFile() {
+                // 1.1 初始化
+                this.fileSrc = [];
+                this.totalPercent = 0;
+                // 2.获取上传文件(数组)
+                const fileObj = document.getElementById('file').files;
+                // 3.正则判断-视频文件
+                const regVideoOther = /\.(flv|swf|ogg|webm|mp4|avi|rmvb)$/;
+                // 4.定义临时数组转存数据
+                let tempArr = []
+                // 5.遍历数组,获取文件信息,插入临时数组
+                Array.from(fileObj).forEach((item, i) => {
+                    let fileSrc = window.URL.createObjectURL(item); // 获取原始对象地址
+                    let fileName = item.name;
+                    // let isImg = false;  // 判断文件类型是否是图片-中间变量
+                    if (regVideoOther.test(fileName)) { // 如果是视频文件
+                        tempArr.push({fileSrc, fileName, file: item, number: 0, isVideo: true})
+                    } else { // 其他文件
+                        tempArr.push({fileSrc, fileName, file: item, number: 0, isVideo: false})
+                    }
+                })
+                // 6.数据转存
+                this.fileSrc = tempArr;
+                // 7.显示进度条
+                this.showProgress = true;
+            },
+
+            /* 2.删除文件 */
+            removeItem(index) {
+                this.fileSrc.splice(index, 1); // 根据文件索引,删除对象
+            },
+
+            /* 3.上传文件 */
+            upAllFile() {
+                /**
+                 * 1.遍历数组,获取所有文件的大小
+                 * 2.判断文件类型,分别上传
+                 * 3.计算单个文件上传进度,显示文件上传进程
+                 * 4.累计已经上传文件的大小.计算总的上传进度.
+                 * */
+                let totalLoaded = 0; // 已经上传完的进度
+                let totalAll = 0; // 所有的文件之和
+                let regVideoOrOther = /\.(flv|swf|ogg|webm|mp4|avi|rmvb)$/;
+                let that = this;
+                Array.from(this.fileSrc).forEach(item => {
+                    that.courseNum ++;
+                    let _self = item;
+                    totalAll += item.file.size; // 总文件大小
+                    if (regVideoOrOther.test(item.file.name)) { // 正则判断是否是视频
+                        let params = new FormData();
+                        params.append('file', item.file)
+                        params.append('aid', "5bcfe246efe1f431d855b611");
+                        axios({
+                            url: 'http://h.haipufa.com/Api/Files/UploadVideo',
+                            method: 'POST',
+                            data: params,
+                            onUploadProgress: progressEvent => {
+                                if (progressEvent.lengthComputable) {
+                                    // 当前文件总数量
+                                    let curAllTotal = progressEvent.total;
+                                    // 已加载完的数量
+                                    let curLoaded = progressEvent.loaded;
+                                    // 1.总上传进度
+                                    let minNum = ((curLoaded + totalLoaded) / totalAll) * 100;
+                                    that.totalPercent = Math.floor(minNum)
+                                    // 避错处理
+                                    if (that.totalPercent >= 100) {
+                                        that.totalPercent = 100;
+                                    }
+                                    // 2.当前元素上传进度
+                                    that.$nextTick(() => {
+                                        _self.number = Math.floor(curLoaded / curAllTotal * 100);
+                                        if (_self.number === 100) {
+                                            // 如果当前元素上传结束,累加至已上传数量
+                                            totalLoaded += curLoaded;
+                                        }
+                                    })
+                                }
+                            }
+                        }).then(res => {
+                            that.courseNum--;
+                        }).catch(res => {
+                            that.error();
+                            _self.number = 0;
+                            that.totalPercent = 0;
+                            that.loading = false;
+                        })
+                    } else {
+                        let params = new FormData();
+                        params.append('file', item.file)
+                        params.append('aid', "5bcfe246efe1f431d855b611");
+                        axios({
+                            url: 'http://h.haipufa.com/Api/Files/UploadImg',
+                            method: 'POST',
+                            data: params,
+                            onUploadProgress: progressEvent => {
+                                if (progressEvent.lengthComputable) {
+                                    // 当前文件总数量
+                                    let curAllTotal = progressEvent.total;
+                                    // 已加载完的数量
+                                    let curLoaded = progressEvent.loaded;
+                                    // 1.总上传进度
+                                    let minNum = ((curLoaded + totalLoaded) / totalAll) * 100;
+                                    that.totalPercent = Math.floor(minNum);
+                                    // 避错处理
+                                    if (that.totalPercent >= 100) {
+                                        that.totalPercent = 100;
+                                    }
+                                    // 2.当前元素上传进度
+                                    // 2.当前元素上传进度
+                                    that.$nextTick(() => {
+                                        _self.number = Math.floor(curLoaded / curAllTotal * 100);
+                                        if (_self.number === 100) {
+                                            // 如果当前元素上传结束,累加至已上传数量
+                                            totalLoaded += curLoaded;
+                                        }
+                                    })
+                                }
+                            }
+                        }).then(res => {
+                            that.courseNum--;
+                        }).catch(res => {
+                            that.error();
+                            _self.number = 0;
+                            that.totalPercent = 0;
+                            that.loading = false;
+                        })
+                    }
+                })
+
+            },
+
+            /* 成功提示 */
+            success() {
+                this.$message({
+                    message: '上传成功!',
+                    type: 'success',
+                    duration: '2000'
+                });
+            },
+
+            /* 错误提示 */
+            error() {
+                this.$message({
+                    message: "网络异常,请重试",
+                    type: 'error',
+                    duration: '3000'
+                });
+            }
+        },
+        watch: {
+            totalPercent: function () {
+                if (this.totalPercent > 0 && this.totalPercent <= 100) {
+                    this.loading = true;
+                }
+            },
+            courseNum: function () {
+                if (this.courseNum === 0 && this.totalPercent === 100) {
+                    this.loading = false;
+                    this.success()
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

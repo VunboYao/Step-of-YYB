@@ -1,0 +1,56 @@
+jQuery: 
+	1.事件监听/委托
+	$(selector).on(event, 子选择器,function)
+	子选择器如新建的绑定事件的元素.不加$(), 裸奔元素
+	
+	2.jQuery中调用this指向 => $(this)
+
+JavaScript:
+	1.insertBefore()
+		插入的元素为节点.必须createElement,创建新元素
+		
+	2.Array.prototype.slice.call(伪数组)	
+	
+	3.原生事件,委托监听,新的事件
+		父级元素.addEventListener(eventType,function(event){
+			let that = event.target;
+			that事件处理
+		}
+		
+		
+屏幕尺寸: screen.width/height
+浏览器尺寸: window.innerWidth/Height(包括滚动条的尺寸)
+滚动移位: window.pageXOffset/YOffset
+viewport的尺寸:document.documentElement.clientWidth/Height(不包含滚动条)
+度量html元素:document.documentElement.offsetWidth/Height
+pageX/Y: 从html原点到事件触发点的CSS的px
+clientX/Y: 从ViewPort原点(浏览器窗口)到事件触发点的CSS的PX
+screenX/Y: 从用户显示器窗口原点到事件触发点的设备的PX
+visual viewport: window.innerWidth/Height
+
+设备像素比(device pixel ratio): 物理像素/设备独立像素
+JS: window.devicePixelRatio
+CSS: -webkit-device-pixel-ratio 
+	-webkit-min-device-pixel-ratio
+	-webkit-max-device-pixel-ratio
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

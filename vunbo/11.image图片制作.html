@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		.box {
+			width: 100%;
+			margin-top: 20px;
+			padding: 10px 0;
+			border-top: 1px solid #ddd;
+			text-align: center;
+		}
+		header {
+			padding: 30px 20px;
+			background: linear-gradient(to right, skyblue, deepskyblue);
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+			gap: 2em 3em;
+		}
+	</style>
+</head>
+<body>
+<div id="app">
+	<header>
+		<div>
+			<el-input
+					placeholder="请输入宽度"
+					v-model="width"
+					@change="createCanvas"
+					clearable>
+			</el-input>
+		</div>
+		<div>
+			<el-input
+					placeholder="请输入高度"
+					v-model="height"
+					@change="createCanvas"
+					clearable>
+			</el-input>
+		</div>
+		<div>
+			<el-input
+					placeholder="请输入背景颜色"
+					v-model="bgColor"
+					@change="createCanvas"
+					clearable>
+			</el-input>
+		</div>
+		<div>
+			<el-input
+					placeholder="请输入文字"
+					v-model="text"
+					@change="createCanvas"
+					clearable>
+			</el-input>
+		</div>
+		<div>
+			<el-input
+					placeholder="请输入文字颜色"
+					v-model="color"
+					@change="createCanvas"
+					clearable>
+			</el-input>
+		</div>
+		<div>
+			<el-input
+					placeholder="请输入文字大小"
+					v-model="fontSize"
+					@change="createCanvas"
+					type="number"
+					clearable>
+			</el-input>
+		</div>
+	</header>
+	<div class="box">
+		<canvas id="canvas" width="666" height="666"></canvas>
+	</div>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.common.dev.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script type="text/html">
+let drawing = document.getElementById('canvas');
+drawing.width = 1500;
+drawing.height = 500;
+let ctx = drawing.getContext('2d');
+
+ctx.fillStyle = '#cccccc';
+ctx.fillRect(0,0,500,200);
+
+ctx.fillStyle = 'red';
+ctx.font = '30px Arial';
+ctx.fillText('Hello World', 10, 50);
+
+/*if (drawing.getContext) {
+    let imgUrl = drawing.toDataURL('image/png');
+    let image = document.createElement('img');
+    image.src = imgUrl;
+    document.body.appendChild(image);
+}*/
+</script>
+<script>
+	let app = new Vue({
+		el: '#app',
+		data: {
+            width: '',
+			height: '',
+			bgColor: '',
+			color: '',
+			fontSize: '',
+			text: ''
+		},
+		mounted() {
+		    this.createCanvas();
+		},
+		methods: {
+		    createCanvas() {
+		        let canvas = document.getElementById('canvas');
+                canvas.width = this.width || 500;
+                canvas.height = this.height || 300;
+				let ctx = canvas.getContext('2d');
+				ctx.fillStyle = this.bgColor || '#ddd';
+				ctx.fillRect(0,0,canvas.width, canvas.height); // 绘制背景
+
+				ctx.fillStyle = this.color || '#969696';
+
+				/*
+				* font-style: normal
+				  font-variant: normal
+				  font-weight: normal
+				  font-stretch: normal
+				  font-size: medium
+				  line-height: normal
+				  font-family: depends on user agent
+				*  */
+				let canvasTextFontSize = this.fontSize || '30'; // 文字大小
+                let canvasText = this.text || 'Image'; // 设置 canvas 中的文字
+                ctx.font = '600 ' +canvasTextFontSize+ 'px Open Sans'; // 设置文字样式
+                let textWidth = ctx.measureText(canvasText).width; // 获取文字宽度
+                ctx.fillText(canvasText, (canvas.width - textWidth) / 2, canvas.height / 2);
+
+            }
+		}
+	})
+</script>
+</body>
+</html>

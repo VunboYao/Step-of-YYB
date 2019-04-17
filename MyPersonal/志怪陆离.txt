@@ -1,0 +1,80 @@
+贫穷限制了我的想象力、吸引力、亲和力、战斗力、意志力、购买力、影响力、凝聚力、创造力、竞争力、执行力、公信力、驾驭力、生命力、注意力、感染力、理解力、弹跳力、免疫力、巧克力……
+
+
+言念君子，温其如玉
+
+
+我登楼观百川，入海即入我怀
+
+css原生@import 指令两大弊端
+1.放在代码最前边
+2.对性能不利
+
+
+SCSS注释/代码开头
+
+/*
+
+SETTINGS
+variables...........................变量集中存储文件
+
+TOOLS
+
+COMPONENTS
+reset...............................重置文件
+
+BASE
+screen.scss.........................样式修改
+
+*/
+
+
+
+
+
+BEM命名
+
+CSS命名：
+
+块：block-name
+元素：block-name__element-name
+修饰符：block-name__element-name_modifier-value
+
+
+
+CSS样式属性顺序
+
+1. Positioning------------定位
+2. Box model -------------盒模型
+3. Typographic------------印刷
+4. Visual-----------------视觉
+5. Misc ------------------杂项
+
+结构属性
+	如果包含 content 属性，应放在最前面
+	1. display
+	2. position, left, top, right etc
+	3. overflow, float, clear etc
+	4. margin, padding 
+	
+表现性属性
+	1. font, text, line-height, color, text-align
+	2. background, border, etc.
+	3. opacity, z-index
+	
+
+NPM
+	--save === -S   	生产环境 dependencies
+	--save-dev === -D   开发环境 devDependencies
+	-g 全局安装
+	npm install module_name  本地安装
+
+
+
+
+
+
+
+
+
+

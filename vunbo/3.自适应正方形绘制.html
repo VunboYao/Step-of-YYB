@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板文件</title>
+    <link rel="stylesheet" href="./css/template.css">
+</head>
+<body>
+<!--Header Start-->
+<header><a href="./../index.html">GoBack</a></header>
+<!--Header End-->
+<!--Main Start-->
+<main>
+    <form action="post" target="myFrame">
+        <div class="handle">
+            <input type="button" value="提交代码" name="button" onclick="runCode()">
+        </div>
+        <div class="code">
+            <p class="intro">编辑代码:</p>
+            <textarea name="edit" id="edit">
+                <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自适应正方形</title>
+    <style>
+        /*图片为例*/
+        /*background写法*/
+        /*  .img {
+              width: 100%;
+              !* 核心:CSS padding 属性的百分比数值是相对于其父元素的 width 计算的，如果改变了父元素的 width，则它们也会改变	 *!
+              padding-bottom: 100%;
+              overflow: hidden;
+              background: url("./../assets/a.jpg") center/100% 100% no-repeat;
+          }*/
+
+        /*img写法*/
+        /* .img {
+             position: relative;
+             width: 100%;
+             padding-bottom: 100%;  !*核心*!
+             overflow: hidden;
+         }
+         .img img {
+             position: absolute;
+             top: 0;
+             right: 0;
+             bottom: 0;
+             left: 0;
+         }*/
+
+        /* 实现自适应正方形 */
+        body {
+            width: 30%;
+        }
+        .box {
+            width: 100%;
+            position: relative;
+            padding-bottom: 100%;
+        }
+
+        .mini-box {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+<!--<div class="img">
+    <img src="./../assets/a.jpg" alt="">
+</div>-->
+<div class="box">
+    <div class="mini-box"></div>
+</div>
+</body>
+</html>
+            </textarea>
+        </div>
+        <div class="result">
+            <p class="intro">查看结果:</p>
+            <iframe src="" name="myFrame"></iframe>
+        </div>
+    </form>
+</main>
+<!--Main End-->
+<!--Footer Start-->
+<footer>
+    <div class="websiteInfo">
+        <p>Vunbo丶Yao</p>
+        <p>积少成多,温故知新,循序渐进,忐忑前行</p>
+    </div>
+</footer>
+<!--FooterEnd-->
+</body>
+<script>
+    function runCode() {
+        let oEdit = document.getElementById('edit'); // 获取编辑区域
+        if (oEdit.value === '') {
+            alert('请输入要运行的代码及内容')
+            return false;
+        }
+        let oFrame = frames['myFrame'];  // 获取框架iframe
+        oFrame.document.open('text/html', 'replace'); // 打开一个新文档,并擦除内容
+        oFrame.document.writeln(oEdit.value); // 写入内容并换行
+        oFrame.document.close(); // 关闭文档，并迫使其内容显示出来。
+    }
+
+    runCode();
+</script>
+</html>

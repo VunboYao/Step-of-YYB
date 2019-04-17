@@ -1,0 +1,177 @@
+基本概念：
+1.仓库 Repository
+2.收藏 Star
+3.复制 Fork
+4.发起请求 基于Fork  pull request
+5.关注 watch
+6.branch 分支
+7.insights 洞察
+8.issue 问题
+
+单词：
+revision 调整
+memorable 难忘
+inspiration 灵感
+fictional 虚构
+existing 现有
+releases 发布
+topics 主题
+master 主
+contributor 贡献者
+roadmap 路线图
+Community profile 社区档案
+recommend 推荐
+optional 可选的 extended 扩展 description 描述/说明
+organizations 组织
+Raw 未加工/原生
+Blame 责任 查看更改文件的用户
+normal 标准/正常
+Followers 关注
+Unified 统一
+Verified 验证
+diff 差异
+curated 策划
+dismiss 辞退/解散/解雇
+feature 特征/特点
+track 跟踪
+unsubscribe 退订
+milestones 里程碑
+assignee 代理人
+customize 定制
+pinned 固定的
+remote 远程
+discard 废弃
+fatal 致命
+
+
+Working Directory  工作区：添加编辑修改文件
+
+暂存区 stage(.git/index)     暂存已经修改的文件最后统一提交到git仓库中
+
+Git Repository     最终确定的文件保存到仓库，成为一个新的版本，并且对他人可见
+
+
+
+工作流程：
+git config --global user.name 'VunboYao'
+git config --global user.email 'vunbo@outlook.com'
+git config --global color.ui auto
+如果使用了 –global 选项，那么该命令只需要运行一次
+
+## 设置SSH Key
+- ssh-keygen -t rsa -C "vunbo@outlook.com"
+
+git config --list 查看当前所有配置
+git config 检查Git的某一项配置  eg: git config user.name
+
+
+1.初始化git
+mkdir 新建文件夹
+cd 文件名 change directory
+git init 初始化
+
+2.提交文件
+创建文件 touch xx.php
+git status
+git add xx.php
+git commit -m '描述的语句' 提交暂存区的文件
+
+3.修改文件
+vi xx.php 修改文件
+git add xx.php  添加到暂存区
+git commit -m '通过GIT第一次修改文件成功'
+
+4.删除文件
+rm -rf a1.php
+git rm a1.php
+git commit -m '第一次通过git删除仓库文件'
+
+5.远程仓库
+git clone 地址
+vi xxx.php =>  i  输入信息   esc结束    :wq 保存
+git add  xxx
+git status
+git commit -m ‘xxxx'
+git status
+git push
+
+
+命令：
+pwd 查看当前路径
+clear 清楚面板
+git help 获取帮助
+git help config 获取config命令手册
+touch 创建文件
+rm 删除文件
+git status 查看文件状态
+git add 文件  提交文件到暂存区
+git commit -m '描述信息'   将暂存区的文件提交
+vi xx.php 修改文件
+rm -rf xx.php 删除工作区文件
+git rm xx.php 删除暂存区文件
+git clone 地址   克隆远程仓库文件
+git push 提交到远程仓库
+git log 查看提交历史
+git diff 查看已暂存和未暂存的修改
+git commit -a -m "Commit message" 加-a 跳过使用暂存区
+git remote -v 查看远程仓库
+
+
+
+- touch 文件名
+- git init 初始化
+- git status 查看当前状态 
+- git add 提交到stage暂存区
+- git commit -m '描述的话'
+- **git log** 查看提交日志      
+    - 只显示提交信息的第一行，在 git log命令后加上 --pretty=short
+- **git log 文件名**         只显示指定目录、文件的日志
+- **git log -p README.md**,显示文件的改动         
+- **git diff**,  查看工作树和暂存区的差别。
+    - 由于工作树和暂存区的状态并无差别，结果什么都不会显示。要查看与最新提交的差别，**git diff HEAD**
+    - 不妨养成这样一个好习惯：在执行 git commit命令之前先执行git diff HEAD命令，查看本次提交与上次提交之间有什么差别，等确认完毕后再进行提交。这里的 HEAD 是指向当前分支中最新一次提交的指针。 
+
+### 分支操作
+
+- git branch  显示分支一览表
+- git checkout  - b——创建、切换分支    
+    - 以当前的 master 分支为基础创建新的分支，我们需要用到git checkout -b命令。
+    - 切换到 feature - A 分支并进行提交 git checkout -b feature-A
+    
+- **git checkout -**  用“-”（连字符）代替分支名，就可以切换至上一个分支。
+
+**特性分支**
+
+**主干分支**
+-  git merge——合并分支
+    - 假设 feature-A 已经实现完毕，想要将它合并到主干分支 master 中。首先切换到 master 分支。
+    - 然后合并 feature-A 分支。为了在历史记录中明确记录下本次分支合并，我们需要创建合并提交。因此，在合并时加上 **--no-ff参数**
+-  git log  -- graph——以图表形式查看分支
+-  git reset——回溯历史版本
+    - 要让仓库的 HEAD、暂存区、当前工作树回溯到指定状态，需要用到 **git reset --hard**命令。只要提供目标时间点的哈希值A ，就可以完全恢复至该时间点的状态。
+
+- 推进历史。     
+    - git log命令只能查看以当前状态为终点的历史日志。
+    - git reflog 查看当前仓库的操作日志。
+
+- git commit --amend——修改提交信息
+
+- git commit -am '描述的话' ——一次性提交      
+- git rebase ——更改历史  
+
+## 推送至远程仓库
+
+-  git remote add——添加远程仓库
+	在 GitHub 上创建的仓库路径为“git@github.com:用户名/git-tutorial.git”。
+
+- git push -u origin master  推送至 master 分支
+
+    -u参数可以在推送的同时，将origin仓库的master分
+    支设置为本地仓库当前分支的 upstream（上游）。添加了这个参数，将来
+    运行 git pull命令从远程仓库获取内容时，本地仓库的这个分支就可
+    以直接从 origin 的 master 分支获取内容，省去了另外添加参数的麻烦。
+
+
+
+
+

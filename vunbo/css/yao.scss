@@ -1,0 +1,17 @@
+@charset "utf-8";
+/**
+ * 按钮定制
+ * 参数依次: 宽度,高度,圆角,bgColor,Color
+ */
+@mixin y-btn($w: 100px, $h: 40px, $br: 5px, $bg: #02c6dc, $color: #fff) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: $w;
+  height: $h;
+  border: none;
+  border-radius: $br;
+  background: $bg;
+  color: $color;
+  outline: none;
+}

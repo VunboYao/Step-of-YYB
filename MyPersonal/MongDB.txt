@@ -1,0 +1,175 @@
+1.安装MongoDB(msi文件类型)---------安装路径下bin文件中cmd：mongo------进入数据库同命令
+
+2.关系型数据库和非关系型区别
+	关系型数据库： 数据库 => 数据表 => 数据行
+	MongoDB:   数据库 => 集合 => 文件
+
+3.基本操作
+	db.version()        显示当前数据库版本
+	
+	show dbs    		显示当前所有数据库
+	use 数据库名 		进入数据库，成功显示 switched to db admin
+	show collections	显示数据库中的所有集合（空不显示）
+	db 					显示当前位置
+	
+	
+	****3.1进入数据，增删改查******
+	
+	use dbName 			当数据库不存在，则建立数据库
+	
+	插入数据     
+	db.集合.insert()   
+		db.user.insert({"name":"yao"})
+		db.student.insert({name:"张三",age:18,sex:"男"});
+		插入多条数据：
+			db.student.insert([
+				{name:"张三",age:18,sex:"男"},
+				{name:"网速",age:38,sex:"女", money: 200},
+				{name:"王五",age:48,sex:"男", friends: "mama"},
+				{name:"马达",age:58,sex:"男"}
+			]);
+			
+	db.集合.find()		查询集合中所有数据
+		条件查询：db.student.find({"age" : 18});
+	db.集合.findOne()	查询集合中第一条数据
+		查询数据的数量：
+			db.student.find().length();
+			db.student.find().count();
+
+	
+	
+	
+	db.集合.update({查询},{修改})     修改文件数据,修改部分写入什么显示什么
+	$set 修改指定的键值   db.workmate.update({name:'MinJie'},{$set:{sex:2,age:23}})
+		 修改嵌套内容     db.workmate.update({name:'MinJie'},{$set:{"skill.skillThree":'wrod'}})
+	
+	修改多条信息
+	db.student.updateMany({"sex":"男"},{$set:{
+    hobby: "study"
+}});
+	
+	multi选项 新加数据， multi有true和false两个值，true代表全部修改，false代表只修改一个
+		db.workmate.update({},{$set:{interset:[]}},{multi:true})
+	
+	
+	$unset 删除指定的key  db.workmate.update({name:'MinJie'},{$unset:{sex:1}})
+		db.student.update({"name":"yyb"},{$unset:{bride:""}});
+	
+	db.集合.remove(条件) 删除文件数据
+	db.集合.drop()       删除整个集合（慎用）
+	db.dropDatabase()	 删除数据库。进入数据库再删除（跑路）
+	
+	
+	****3.2修改数据******
+	
+	
+	$inc   对数字进行计算 db.workmate.update({"name":"MinJie"},{$inc:{"age":-2}})
+	
+	multi选项 新加数据， multi有true和false两个值，true代表全部修改，false代表只修改一个
+		db.workmate.update({},{$set:{interset:[]}},{multi:true})
+		
+	upsert选项（true代表没有就添加，false代表没有不添加（默认值））
+		db.workmate.update({name:'xiaoWang'},{$set:{age:20}},{upsert:true})
+	
+	$push追加数组/内嵌文档值
+		db.workmate.update({name:'xiaoWang'},{$push:{interest:'draw'}})
+		内嵌文档增加值
+			db.workmate.update({name:'MinJie'},{$push:{"skill.skillFour":'draw'}})
+	
+	$ne查找是否存在（没有则修改，有则不修改。）
+	    db.workmate.update({name:'xiaoWang',"interest":{$ne:'playGame'}},{$push:{interest:'Game'}})
+	
+	$addToSet 升级版的$ne
+		db.workmate.update({name:"xiaoWang"},{$addToSet:{interest:"readBook"}})
+		
+	$each 批量追加	
+		var newInterset=["Sing","Dance","Code"];
+		db.workmate.update({name:"xiaoWang"},{$addToSet:{interest:{$each:newInterset}}})
+
+	$pop 删除数组值（1：从数组末端进行删除          -1：从数组开端进行删除）
+		db.workmate.update({name:'xiaoWang'},{$pop:{interest:1}})
+	
+	数组定位修改（定位从0开始）
+		db.workmate.update({name:'xiaoWang'},{$set:{"interest.2":"Code"}})
+	
+	
+	****3.3查找数据******
+	db.workmate.find({"skill.skillOne":"HTML+CSS"},{name:true,"skill.skillOne":true})
+	
+	$in $or  $and $not 
+	
+	$all 数组多项查询
+	$in 数组中满足某一项的查询
+	$size   数组个数查询
+	$slice  显示选项
+	
+4.编辑器中执行写入文件操作	
+	let userName = 'vunbo'
+	let timeStamp = Date.parse(new Date()) // 时间戳
+	let jsonDataBase = {"loginUser": userName, "loginTime": timeStamp}
+	let db = connect('log'); // 链接数据库
+	db.login.insert(jsonDataBase)  // 插入数据
+	print('[demo]: log print success')
+	// 执行mongo xxxx.js
+	
+	
+	
+	
+mongoose:	
+安装：
+npm install mongoose
+导入：
+const mongoose = require('mongoose');	
+连接数据库：
+mongoose.connect('mongodb://localhost/my_database', { useNewUrlParser: true });
+如果链接多个数据库：用mongoose.createConnection
+
+创建链接实例：
+let db = mongoose.connection;
+	
+通过Schema定义Model
+const Schema = mongoose.Schema;	
+const Person = new Schema({
+    name: String,
+    age: Number,
+    chat: String
+});
+Schema常用类型：
+String
+Number
+Date
+Buffer
+Boolean
+Mixed
+ObjectId
+Array
+Decimal128
+Map
+
+
+访问Model
+const MyModel = mongoose.model("person", Person);
+
+实例化模型
+const instance = new MyMode({
+    name: "zs",
+    age: 20,
+    chat: "zhangsan"
+});
+保存
+instance.save((err,product) => {
+    if (!err) {
+        console.log(product)
+    }
+})
+
+
+
+
+
+
+
+
+
+
+	
