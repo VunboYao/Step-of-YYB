@@ -17,6 +17,7 @@
 			margin-top: 20px;
 			padding: 10px 0;
 			border-top: 1px solid #ddd;
+			border-bottom: 1px solid #ddd;
 			text-align: center;
 		}
 		header {
@@ -25,6 +26,26 @@
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 			gap: 2em 3em;
+		}
+		footer {
+			display: flex;
+			justify-content: center;
+			padding: 20px;
+		}
+		.default {
+			color: #9f9f9f;
+		}
+		ul {
+			padding: 0 20px;
+		}
+		ul li {
+			height: 30px;
+			line-height: 30px;
+			font-size: 20px;
+		}
+		.current {
+			margin-left: 150px;
+			color: #71b5ff;
 		}
 	</style>
 </head>
@@ -49,16 +70,16 @@
 		</div>
 		<div>
 			<el-input
-					placeholder="请输入背景颜色"
-					v-model="bgColor"
+					placeholder="请输入文字"
+					v-model="text"
 					@change="createCanvas"
 					clearable>
 			</el-input>
 		</div>
 		<div>
 			<el-input
-					placeholder="请输入文字"
-					v-model="text"
+					placeholder="请输入背景颜色"
+					v-model="bgColor"
 					@change="createCanvas"
 					clearable>
 			</el-input>
@@ -80,33 +101,45 @@
 					clearable>
 			</el-input>
 		</div>
+		<div>
+			<a id="btn">
+				<el-row>
+					<el-button type="success" @click="downLoadImg">DownLoad</el-button>
+				</el-row>
+			</a>
+		</div>
 	</header>
 	<div class="box">
-		<canvas id="canvas" width="666" height="666"></canvas>
+		<canvas id="canvas"></canvas>
 	</div>
+	<footer>
+		<div class="default">
+			<ul>
+				<li>默认宽度: 500</li>
+				<li>默认高度: 300</li>
+				<li>默认文字: Image</li>
+				<li>字体大小: 44px</li>
+				<li>背景颜色: #ddd</li>
+				<li>字体颜色: #969696</li>
+			</ul>
+		</div>
+		<div class="current">
+			<ul>
+				<li>当前宽度: {{width}}</li>
+				<li>当前高度: {{height}}</li>
+				<li>当前文字: {{text}}</li>
+				<li>字体大小: {{fontSize | addPx}}</li>
+				<li>背景颜色: {{bgColor}}</li>
+				<li>字体颜色: {{color}}</li>
+			</ul>
+		</div>
+	</footer>
+	<audio id="audio">
+		<source src="../assets/ios.mp3">
+	</audio>
 </div>
 <script src="https://cdn.bootcss.com/vue/2.6.10/vue.common.dev.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-<script type="text/html">
-let drawing = document.getElementById('canvas');
-drawing.width = 1500;
-drawing.height = 500;
-let ctx = drawing.getContext('2d');
-
-ctx.fillStyle = '#cccccc';
-ctx.fillRect(0,0,500,200);
-
-ctx.fillStyle = 'red';
-ctx.font = '30px Arial';
-ctx.fillText('Hello World', 10, 50);
-
-/*if (drawing.getContext) {
-    let imgUrl = drawing.toDataURL('image/png');
-    let image = document.createElement('img');
-    image.src = imgUrl;
-    document.body.appendChild(image);
-}*/
-</script>
 <script>
 	let app = new Vue({
 		el: '#app',
@@ -120,6 +153,13 @@ ctx.fillText('Hello World', 10, 50);
 		},
 		mounted() {
 		    this.createCanvas();
+		},
+		filters: {
+		   addPx: function (value) {
+			   if (!!value) {
+                   return value + ' px';
+			   }
+           }
 		},
 		methods: {
 		    createCanvas() {
@@ -141,13 +181,31 @@ ctx.fillText('Hello World', 10, 50);
 				  line-height: normal
 				  font-family: depends on user agent
 				*  */
-				let canvasTextFontSize = this.fontSize || '30'; // 文字大小
+				let canvasTextFontSize = this.fontSize || '44'; // 文字大小
                 let canvasText = this.text || 'Image'; // 设置 canvas 中的文字
                 ctx.font = '600 ' +canvasTextFontSize+ 'px Open Sans'; // 设置文字样式
                 let textWidth = ctx.measureText(canvasText).width; // 获取文字宽度
                 ctx.fillText(canvasText, (canvas.width - textWidth) / 2, canvas.height / 2);
 
-            }
+            },
+			downLoadImg() {
+                let canvas = document.getElementById('canvas');
+                let btn = document.getElementById('btn');
+                if (canvas.getContext) {
+                    document.getElementById('audio').play(); // 音效
+                    let text = this.text || 'yImg';
+                    btn.href = canvas.toDataURL();
+					btn.download = text + '.png';
+					this.open();// 提示
+				}
+			},
+			open() {
+		        this.$message({
+					showClose: true,
+					message: '下载成功',
+					type: 'success'
+				})
+			}
 		}
 	})
 </script>
