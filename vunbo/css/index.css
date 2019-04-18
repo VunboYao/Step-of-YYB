@@ -311,6 +311,7 @@ body {
 
 /* Header */
 header {
+  position: relative;
   display: flex;
   align-items: center;
   background: linear-gradient(to right, #79f1a4, #0e5cad);
@@ -365,6 +366,7 @@ main {
           .container .css .chunk-list a .item-title {
             flex: 9;
             color: #330211;
+            line-height: 25px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap; }
@@ -392,6 +394,7 @@ main {
           .container .js .chunk-list a .item-title {
             flex: 9;
             color: #cc310c;
+            line-height: 25px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap; }
@@ -419,6 +422,7 @@ main {
           .container .other .chunk-list a .item-title {
             flex: 9;
             color: #05044c;
+            line-height: 25px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap; }

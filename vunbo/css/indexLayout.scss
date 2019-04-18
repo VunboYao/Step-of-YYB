@@ -6,9 +6,10 @@ body {
 }
 /* Header */
 header {
+  position: relative;
   display: flex;
   align-items: center;
-  background: linear-gradient(to right, #79f1a4, #0e5cad);;
+  background: linear-gradient(to right, #79f1a4, #0e5cad);
   padding: 5px;
   /* Logo */
   .header-logo {
@@ -60,6 +61,7 @@ main {
           .item-title {
             flex: 9;
             color: $color;
+            line-height: 25px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -105,3 +107,4 @@ footer {
     text-align: center;
   }
 }
+
