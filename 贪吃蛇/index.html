@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Title</title>
-	<style>
+	<style type="text/html">
 		* {
 			margin: 0;
 			padding: 0;
@@ -26,10 +26,33 @@
 			background: url(./images/map06.jpg);
 		}
 	</style>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html,body {
+			display: grid;
+			place-content: center;
+			width: 100%;
+			height: 100%;
+		}
+		.map {
+			display: grid;
+			grid-template-columns: repeat(12, 1fr);
+			grid-template-rows: repeat(12, 1fr);
+			position: relative;
+			width: 600px;
+			height: 600px;
+			box-shadow: 0 0 5px #ddd;
+		}
+	</style>
 </head>
 <body>
-<script src="js/Snake.js"></script>
-<script>
+<!--<div class="map"></div>-->
+<!--<script src="js/Snake.js"></script>-->
+<script src="js/snake1.js"></script>
+<!--<script>
     let oMap = new SnakeMap();
     let objSnake = {
         width: 100,
@@ -44,6 +67,15 @@
     oFood.render(oMap);
     oSnake.render();
     oSnake.update(oFood);
+</script>-->
+<script>
+	let oMap = new Map(); // 生成地图
+
+	let oFood = new Food(oMap); // 传入地图
+	oFood.render(); // 生成随机食物
+
+	let oSnake = new Snake(oMap);
+	oSnake.render();
 </script>
 </body>
 </html>
