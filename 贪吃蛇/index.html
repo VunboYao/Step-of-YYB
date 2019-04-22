@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		html, body {
+			display: grid;
+			/*	grid-template-rows: auto;
+				grid-template-columns: auto;*/
+			place-content: center;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(to bottom, rgba(0, 0, 0, .25), rgba(255, 0, 0, .3));
+		}
+
+		.map {
+			position: relative;
+			width: 1000px;
+			height: 800px;
+			background: url(./images/map06.jpg);
+		}
+	</style>
+</head>
+<body>
+<script src="js/Snake.js"></script>
+<script>
+    let oMap = new SnakeMap();
+    let objSnake = {
+        width: 100,
+        height: 100,
+        headImg: 'images/head.png',
+        bodyImg: 'images/body.png',
+        map: oMap
+    }
+    let oSnake = new Snake(objSnake);
+    let position = {width: 100, height: 100, bgImg: 'images/body.png', map: oMap}
+    let oFood = new SnakeFood(position);
+    oFood.render(oMap);
+    oSnake.render();
+    oSnake.update(oFood);
+</script>
+</body>
+</html>
