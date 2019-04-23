@@ -42,9 +42,9 @@ class Map {
 
 class Snake {
     constructor(map) {
-        this.map = map;
-        this.originPosition = {}; // 蛇尾
-        this.currentDirection = 'ArrowRight';
+        this.map = map
+        this.originPosition = {} // 蛇尾
+        this.currentDirection = 'ArrowRight'
 
         // 地图宽高
         this.mapWidth = parseInt(getComputedStyle(this.map).width)
@@ -54,10 +54,10 @@ class Snake {
         let row = this.rowNum = this.mapHeight / 50
 
         // 创建数组地图
-        this.mapArr = [];
+        this.mapArr = []
         for (let c = 0; c < col; c++) {
             for (let r = 0; r < row; r++) {
-                this.mapArr.push({x: c, y: r});
+                this.mapArr.push({x: c, y: r})
             }
         }
 
@@ -71,26 +71,37 @@ class Snake {
         // 方向操控
         document.body.onkeydown = ev => {
             switch (ev.key) {
+                /* 判断按下的方向,如果与当前方向相反,则无效 */
                 case 'ArrowUp':
-                   if (this.currentDirection === 'ArrowDown') {
-                       this.key = 'ArrowDown';
-                   }
-                   break;
+                    if (this.currentDirection === 'ArrowDown') {
+                        this.key = 'ArrowDown'
+                    } else {
+                        this.key = 'ArrowUp'
+                    }
+                    break
                 case 'ArrowLeft':
                     if (this.currentDirection === 'ArrowRight') {
-                        this.key = 'ArrowRight';
+                        this.key = 'ArrowRight'
+                    } else {
+                        this.key = 'ArrowLeft'
                     }
-                    break;
+                    break
                 case 'ArrowDown':
                     if (this.currentDirection === 'ArrowUp') {
-                        this.key = 'ArrowUp';
+                        this.key = 'ArrowUp'
+                    } else {
+                        this.key = 'ArrowDown'
                     }
-                    break;
+                    break
                 case 'ArrowRight':
                     if (this.currentDirection === 'ArrowLeft') {
-                        this.key = 'ArrowRight';
+                        this.key = 'ArrowLeft'
+                    } else {
+                        this.key = 'ArrowRight'
                     }
-                    break;
+                    break
+                default:
+                    this.key = 'ArrowRight'
             }
         }
     }
@@ -104,50 +115,50 @@ class Snake {
         food.style.background = 'green'
 
         // 食物坐标
-        this.foodPlace = this.generatePlace();
+        this.foodPlace = this.generatePlace()
 
         food.style.left = this.foodPlace.x * 50 + 'px'
         food.style.top = this.foodPlace.y * 50 + 'px'
 
         this.map.appendChild(food)
 
-        this.food = food;
+        this.food = food
     }
 
     // 删除食物
     removeFood() {
-        this.food.parentNode.removeChild(this.food);
+        this.food.parentNode.removeChild(this.food)
     }
 
     // 食物随机位置
     generatePlace() {
         /* 查询蛇身当前在数组地图中的索引,并在数组地图中将蛇身索引删除 */
         this.bodies.forEach(item => {
-            let demo = {x: item.x, y: item.y};
+            let demo = {x: item.x, y: item.y}
             let index = this.mapArr.findIndex(value => {
-                return demo.x === value.x && demo.y === value.y;
+                return demo.x === value.x && demo.y === value.y
             })
-            this.mapArr.splice(index, 1);
+            this.mapArr.splice(index, 1)
         })
 
         // 随机数组地图中索引值
-        let ranNum = Math.floor(Math.random() * this.mapArr.length);
+        let ranNum = Math.floor(Math.random() * this.mapArr.length)
 
-        let {x, y} = this.mapArr[ranNum];
-        return {x, y};
+        let {x, y} = this.mapArr[ranNum]
+        return {x, y}
     }
 
     // 创建蛇
     snakeRender() {
         // 删除之前的蛇
-        let aSnake = document.querySelectorAll('.snake');
+        let aSnake = document.querySelectorAll('.snake')
         aSnake.forEach(item => {
-            item.parentNode.removeChild(item);
+            item.parentNode.removeChild(item)
         })
         // 创建蛇
         this.bodies.forEach(item => {
             let oDiv = document.createElement('div')
-            oDiv.className = 'snake';
+            oDiv.className = 'snake'
             oDiv.style.position = 'absolute'
             oDiv.style.left = 50 * item.x + 'px'
             oDiv.style.top = 50 * item.y + 'px'
@@ -172,62 +183,51 @@ class Snake {
         }
         // 蛇节移动
         for (let i = this.bodies.length - 1; i > 0; i--) {
-            this.bodies[i].x = this.bodies[i - 1].x;
-            this.bodies[i].y = this.bodies[i - 1].y;
+            this.bodies[i].x = this.bodies[i - 1].x
+            this.bodies[i].y = this.bodies[i - 1].y
         }
 
         // 蛇头移动
-        let oHead = this.bodies[0];
+        let oHead = this.bodies[0]
         switch (this.key) {
             case 'ArrowUp':
-                // if (this.currentDirection !== 'ArrowDown') {
-                oHead.y -= 1;
-                this.currentDirection = 'ArrowUp';
-                // }
-                break;
+                oHead.y -= 1
+                this.currentDirection = 'ArrowUp'
+                break
             case 'ArrowRight':
-                // if (this.currentDirection !== 'ArrowLeft') {
-                oHead.x += 1;
+                oHead.x += 1
                 this.currentDirection = 'ArrowRight'
-                // }
-                break;
+                break
             case 'ArrowDown':
-                // if (this.currentDirection !== 'ArrowUp') {
-                oHead.y += 1;
+                oHead.y += 1
                 this.currentDirection = 'ArrowDown'
-                // }
-                break;
+                break
             case 'ArrowLeft':
-                console.log(this.currentDirection);
-                if (this.currentDirection !== 'ArrowRight') {
-                    oHead.x -= 1;
-                    this.currentDirection = 'ArrowLeft'
-                } else {
-                    return false;
-                }
-                break;
+                oHead.x -= 1
+                this.currentDirection = 'ArrowLeft'
+                break
             default:
-                oHead.x += 1;
-                break;
+                oHead.x += 1
+                break
         }
     }
 
     // 判断
     inspection() {
-        let head = this.bodies[0];
+        let head = this.bodies[0]
         /* 撞墙GG */
         if (head.x >= this.colNum || head.y >= this.rowNum || head.x < 0 || head.y < 0) {
-            alert('苦海无涯, 回头是岸~');
-            clearInterval(this.timer);
-            return false;
+            alert('苦海无涯, 回头是岸~')
+            clearInterval(this.timer)
+            return false
         }
         /* 自杀GG */
         // 最少四个才可能吃到自己
         for (let i = 4; i < this.bodies.length; i++) {
             if (head.x === this.bodies[i].x && head.y === this.bodies[i].y) {
-                alert('本是同根生,相煎何太急~');
-                clearInterval(this.timer);
-                return false;
+                alert('本是同根生,相煎何太急~')
+                clearInterval(this.timer)
+                return false
             }
         }
 
@@ -235,30 +235,30 @@ class Snake {
         // 判定当前头坐标与食物坐标
         if (head.x === this.foodPlace.x && head.y === this.foodPlace.y) {
             // 1.删除当前食物
-            this.removeFood();
+            this.removeFood()
 
             //2. 生成新的食物
-            this.foodRender();
+            this.foodRender()
 
             // 3.蛇身加1
-            this.bodies.push(this.originPosition);
+            this.bodies.push(this.originPosition)
         }
-        return true;
+        return true
     }
 
     //
     update() {
         this.timer = setInterval(() => {
             // 1.移动蛇
-            this.snakeMove();
+            this.snakeMove()
 
             // 2.验证
-            let flag = this.inspection();
+            let flag = this.inspection()
             if (!flag) {
-                return;
+                return
             }
             // 3.蛇渲染
-            this.snakeRender();
-        }, 1000)
+            this.snakeRender()
+        }, 200)
     }
 }
