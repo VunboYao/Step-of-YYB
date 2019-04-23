@@ -30,6 +30,7 @@
 		* {
 			margin: 0;
 			padding: 0;
+			box-sizing: border-box;
 		}
 		html,body {
 			display: grid;
@@ -45,6 +46,9 @@
 			width: 600px;
 			height: 600px;
 			box-shadow: 0 0 5px #ddd;
+		}
+		.map > div {
+			border: 1px solid #000;
 		}
 	</style>
 </head>
@@ -71,11 +75,11 @@
 <script>
 	let oMap = new Map(); // 生成地图
 
-	let oFood = new Food(oMap); // 传入地图
-	oFood.render(); // 生成随机食物
-
-	let oSnake = new Snake(oMap);
-	oSnake.render();
+	let oSnake = new Snake(oMap); // 传入地图
+	oSnake.snakeRender(); // 渲染蛇
+	oSnake.foodRender(); // 渲染食物
+	oSnake.update();
 </script>
+<!--<script src="demo.js"></script>-->
 </body>
 </html>
