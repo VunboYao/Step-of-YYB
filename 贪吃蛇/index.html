@@ -40,15 +40,15 @@
 		}
 		.map {
 			display: grid;
-			grid-template-columns: repeat(12, 1fr);
-			grid-template-rows: repeat(12, 1fr);
+			grid-template-columns: repeat(20, 1fr);
+			grid-template-rows: repeat(20, 1fr);
 			position: relative;
 			width: 600px;
 			height: 600px;
 			box-shadow: 0 0 5px #ddd;
 		}
 		.map > div {
-			border: 1px solid #000;
+			box-shadow: 0 0 5px rgba(233, 40, 66, 0.4);
 		}
 	</style>
 </head>
@@ -73,12 +73,12 @@
     oSnake.update(oFood);
 </script>-->
 <script>
-	let oMap = new Map(); // 生成地图
+	// let oMap = new Map(); // 生成地图
 
-	let oSnake = new Snake(oMap); // 传入地图
-	oSnake.snakeRender(); // 渲染蛇
+	let oSnake = new Snake(); // 传入地图
+	/*oSnake.snakeRender(); // 渲染蛇
 	oSnake.foodRender(); // 渲染食物
-	oSnake.update();
+	oSnake.update();*/
 </script>
 <!--<script src="demo.js"></script>-->
 </body>

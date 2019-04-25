@@ -1,11 +1,11 @@
-class Map {
+/*class Map {
     constructor() {
         let map = document.createElement('div')
         map.className = 'map'
         document.body.appendChild(map)
         return map
     }
-}
+}*/
 
 /*class Food {
     constructor(map) {
@@ -41,8 +41,11 @@ class Map {
 }*/
 
 class Snake {
-    constructor(map) {
-        this.map = map
+    constructor() {
+        this.map = document.createElement('div')
+        this.map.className = 'map'
+        document.body.appendChild(this.map);
+
         this.originPosition = {} // 蛇尾
         this.currentDirection = 'ArrowRight'
 
@@ -53,13 +56,7 @@ class Snake {
         let col = this.colNum = this.mapWidth / 50
         let row = this.rowNum = this.mapHeight / 50
 
-        // 创建数组地图
-        this.mapArr = []
-        for (let c = 0; c < col; c++) {
-            for (let r = 0; r < row; r++) {
-                this.mapArr.push({x: c, y: r})
-            }
-        }
+
 
         // 初始蛇
         this.bodies = [
@@ -104,6 +101,10 @@ class Snake {
                     this.key = 'ArrowRight'
             }
         }
+
+        this.snakeRender();
+        this.foodRender();
+        this.update();
     }
 
     // 创建食物
@@ -132,6 +133,13 @@ class Snake {
 
     // 食物随机位置
     generatePlace() {
+        // 创建数组地图
+        this.mapArr = []
+        for (let c = 0; c < this.colNum; c++) {
+            for (let r = 0; r < this.rowNum; r++) {
+                this.mapArr.push({x: c, y: r})
+            }
+        }
         /* 查询蛇身当前在数组地图中的索引,并在数组地图中将蛇身索引删除 */
         this.bodies.forEach(item => {
             let demo = {x: item.x, y: item.y}
