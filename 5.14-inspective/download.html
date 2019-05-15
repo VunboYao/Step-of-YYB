@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>下载</title>
+	<style>
+		body {
+			margin: 0;
+			user-select: none;
+		}
+		.logo {
+			padding:26px 0;
+			text-align: center;
+		}
+
+		.download {
+			padding: 0 14px;
+			display: block;
+			text-align: center;
+			text-decoration: none;
+		}
+		.download-text {
+			display: block;
+			font-size: 18px;
+			line-height: 2.5;
+			color: #fff;
+			border-radius: 5px;
+			background: #1AAD19;
+			border: 1px solid rgba(0,0,0,.2);
+			box-sizing: border-box;
+		}
+		footer > .copyright {
+			padding: 1em;
+			text-align: center;
+			font-size: 12px;
+			color: #999;
+		}
+		.mask {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			background: url("mask.png") no-repeat;
+			background-size: cover;
+		}
+	</style>
+</head>
+<body>
+<div class="mask">
+	<img src="./mask.png" alt="">
+</div>
+<div class="container">
+	<h1 class="logo">
+		<img src="01.jpg" alt="logo" width="100" height="100">
+	</h1>
+	<a class="download" onclick="goDownload()">
+		<span class="download-text">下载App</span>
+	</a>
+	<footer>
+		<p class="copyright">Copyright © 2019 定向运动</p>
+	</footer>
+</div>
+<script>
+	let bom = navigator.userAgent;
+    let isAndroid = bom.indexOf('Android') > -1 || bom.indexOf('And') > -1;
+    let isIOS = !!bom.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+    // 微信判断
+
+    function isWeiXinBrowser() {
+        let ua = window.navigator.userAgent.toLowerCase();
+		return (/micromessenger/.test(ua));
+    }
+	function goDownload() {
+        if (isWeiXinBrowser()) {
+            document.querySelector('.mask').style.display = 'block';
+		} else {
+            // 安卓判断
+            if (isAndroid) {
+            	alert('安卓下载');
+            } else if (isIOS) {
+                alert('IOS下载');
+            } else {
+                var link = document.getElementsByClassName('download')[0];
+                // link.setAttribute('href','http://d.haipufa.com/msg/jianghu/jianghu2054.apk');
+			}
+		}
+	}
+</script>
+</body>
+</html>
